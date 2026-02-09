@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Jogo Verdadeiro ou Falso</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #eaf4ff;
+        text-align: center;
+        padding: 20px;
+    }
+    .card {
+        background: white;
+        padding: 40px;
+        max-width: 900px; /* Aumentei a largura para a frase ter espaço */
+        margin: auto;
+        border-radius: 30px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    
+    /* FRASE DA PERGUNTA - BEM GRANDE */
+    #question {
+        font-size: 40px; 
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 40px;
+        line-height: 1.2;
+        min-height: 150px; /* Garante que o cartão não mude de tamanho */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    button {
+        padding: 20px 40px;
+        margin: 15px;
+        font-size: 35px; /* Botões maiores para facilitar o clique */
+        cursor: pointer;
+        border: none;
+        border-radius: 15px;
+        font-weight: bold;
+        transition: transform 0.2s;
+    }
+    
+    button:active {
+        transform: scale(0.95);
+    }
+
+    .true {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .false {
+        background-color: #F44336;
+        color: white;
+    }
+
+    #feedback {
+        font-size: 40px;
+        margin-top: 20px;
+        font-weight: bold;
+        height: 50px;
+    }
+
+    #score {
+        font-size: 25px;
+        margin-top: 20px;
+        color: #666;
+    }
+
+    h1 { font-size: 40px; }
+    h3 { font-size: 25px; color: #555; }
+</style>
+</head>
+
+<body>
+
+<h1>🖥️ Verdadeiro ou Falso</h1>
+<h3>Uso correto do computador</h3>
+
+<div class="card">
+    <div id="question"></div>
+    <button class="true" onclick="checkAnswer(true)">Verdadeiro</button>
+    <button class="false" onclick="checkAnswer(false)">Falso</button>
+    <p id="feedback"></p>
+    <p id="score"></p>
+</div>
+
+<script>
+const questions = [
+    { text: "Não podemos ligar o computador se não houver energia elétrica.", answer: true },
+    { text: "Podemos comer e beber perto do computador sem problemas.", answer: false },
+    { text: "Nunca devemos clicar em links desconhecidos na internet.", answer: true },
+    { text: "O computador funciona mesmo quando está desligado.", answer: false },
+    { text: "Não é correto desligar o computador apertando qualquer botão.", answer: true },
+    { text: "Podemos usar o computador para estudar e aprender coisas novas.", answer: true },
+    { text: "Ninguém precisa cuidar do computador da escola.", answer: false },
+    { text: "Não devemos mexer nos cabos do computador sem autorização.", answer: true },
+    { text: "O computador não precisa de cuidados para funcionar bem.", answer: false },
+    { text: "É importante pedir ajuda ao professor quando temos dúvidas no computador.", answer: true }
+];
+
+let currentQuestion = 0;
+let points = 0;
+
+function loadQuestion() {
+    document.getElementById("question").innerText = questions[currentQuestion].text;
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("score").innerText = "Pontuação: " + points;
+}
+
+function checkAnswer(choice) {
+    if (choice === questions[currentQuestion].answer) {
+        document.getElementById("feedback").innerText = "✅ Muito bem!";
+        document.getElementById("feedback").style.color = "#4CAF50";
+        points++;
+    } else {
+        document.getElementById("feedback").innerText = "❌ Tente novamente!";
+        document.getElementById("feedback").style.color = "#F44336";
+    }
+
+    setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+            loadQuestion();
+        } else {
+            document.querySelector(".card").innerHTML =
+                "<h2 style='font-size: 50px;'>🎉 Fim do jogo!</h2>" +
+                "<p style='font-size: 35px;'>Sua pontuação: " + points + " de " + questions.length + "</p>" +
+                "<button onclick='location.reload()' style='background:#2196F3; color:white;'>Jogar novamente</button>";
+        }
+    }, 1500); // Aumentei um pouco o tempo para eles lerem o feedback
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
